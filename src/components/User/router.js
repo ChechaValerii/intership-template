@@ -1,61 +1,23 @@
-const { Router } = require('express');
-const UserComponent = require('.');
+const express = require('express');
 
-/**
- * Express router to mount user related functions on.
- * @type {Express.Router}
- * @const
- */
-const router = Router();
+const router = express.Router();
+const userController = require('./index');
+const { auth } = require('../../middleware/auth');
 
-/**
- * Route serving list of users.
- * @name /v1/users
- * @function
- * @inner
- * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
- */
-router.get('/', UserComponent.findAll);
+router.post('/register', userController.newUser);
 
-/**
- * Route serving a user
- * @name /v1/users/:id
- * @function
- * @inner
- * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
- */
-router.get('/:id', UserComponent.findById);
+router.get('/profile/:id', auth, userController.getUser);
 
-/**
- * Route serving a new user
- * @name /v1/users
- * @function
- * @inner
- * @param {string} path - Express path
- * @param {callback} middleware - Express middleware
- */
-router.post('/', UserComponent.create);
+router.get('/list/:id', auth, userController.getUsers);
 
-/**
- * Route serving a new user
- * @name /v1/users
- * @function
- * @inner
- * @param {string} path - Express path
- * @param {callback} middleware - Express middleware
- */
-router.put('/', UserComponent.updateById);
+router.put('/update/:id', auth, userController.updateUser);
 
-/**
- * Route serving a new user
- * @name /v1/users
- * @function
- * @inner
- * @param {string} path -Express path
- * @param {callback} middleware - Express middleware
- */
-router.delete('/', UserComponent.deleteById);
+router.delete('/delete/:id', auth, userController.deleteUser);
+
+router.post('/login', userController.loginUser);
+
+router.post('/refresh/:id', userController.refreshTokenUser);
+
+router.get('/logout/:id', userController.logoutUser);
 
 module.exports = router;
