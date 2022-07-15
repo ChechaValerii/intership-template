@@ -1,17 +1,18 @@
 const { Schema } = require('mongoose');
 const mongooseConnection = require('../../config/connection');
 
-const COLLECTION_NAME = 'usermodel';
-const MODEL_NAME = 'UserModel';
+const COLLECTION_NAME = 'products';
+const MODEL_NAME = 'ProductModel';
 
 const schema = new Schema(
     {
-        fullName: {
+        name: {
             type: String,
             trim: true,
+            required: true,
         },
-        email: {
-            type: String,
+        price: {
+            type: Number,
             required: true,
         },
     },

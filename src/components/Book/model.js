@@ -1,22 +1,28 @@
 const { Schema } = require('mongoose');
 const mongooseConnection = require('../../config/connection');
 
-const COLLECTION_NAME = 'usermodel';
-const MODEL_NAME = 'UserModel';
+const COLLECTION_NAME = 'books';
+const MODEL_NAME = 'BookModel';
 
 const schema = new Schema(
     {
-        fullName: {
+        code3: {
+            // country code
             type: String,
             trim: true,
+            required: true,
         },
-        email: {
+        title: {
             type: String,
             required: true,
+        },
+        description: {
+            type: String,
         },
     },
     {
         collection: COLLECTION_NAME,
+        timestamps: true,
         versionKey: false,
     },
 );

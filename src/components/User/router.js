@@ -1,5 +1,8 @@
 const { Router } = require('express');
+const { validateParams, validateBody } = require('../../middleware/validationHandler');
+const asyncErrorCatcher = require('../../middleware/errorHandlers/asyncErrorCatcher');
 const UserComponent = require('.');
+const UserValidation = require('./validation');
 
 /**
  * Express router to mount user related functions on.
@@ -14,9 +17,12 @@ const router = Router();
  * @function
  * @inner
  * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
+ * @param {...callback} middleware - Express middleware.
  */
-router.get('/', UserComponent.findAll);
+router.get(
+    '/',
+    asyncErrorCatcher(UserComponent.findAll),
+);
 
 /**
  * Route serving a user
@@ -24,9 +30,13 @@ router.get('/', UserComponent.findAll);
  * @function
  * @inner
  * @param {string} path - Express path
- * @param {callback} middleware - Express middleware.
+ * @param {...callback} middleware - Express middleware.
  */
-router.get('/:id', UserComponent.findById);
+router.get(
+    '/:id',
+    validateParams(UserValidation.findById.bind(UserValidation)),
+    asyncErrorCatcher(UserComponent.findById),
+);
 
 /**
  * Route serving a new user
@@ -34,9 +44,13 @@ router.get('/:id', UserComponent.findById);
  * @function
  * @inner
  * @param {string} path - Express path
- * @param {callback} middleware - Express middleware
+ * @param {...callback} middleware - Express middleware.
  */
-router.post('/', UserComponent.create);
+router.post(
+    '/',
+    validateBody(UserValidation.create.bind(UserValidation)),
+    asyncErrorCatcher(UserComponent.create),
+);
 
 /**
  * Route serving a new user
@@ -44,9 +58,13 @@ router.post('/', UserComponent.create);
  * @function
  * @inner
  * @param {string} path - Express path
- * @param {callback} middleware - Express middleware
+ * @param {...callback} middleware - Express middleware.
  */
-router.put('/', UserComponent.updateById);
+router.put(
+    '/',
+    validateBody(UserValidation.updateById.bind(UserValidation)),
+    asyncErrorCatcher(UserComponent.updateById),
+);
 
 /**
  * Route serving a new user
@@ -54,8 +72,12 @@ router.put('/', UserComponent.updateById);
  * @function
  * @inner
  * @param {string} path -Express path
- * @param {callback} middleware - Express middleware
+ * @param {...callback} middleware - Express middleware.
  */
-router.delete('/', UserComponent.deleteById);
+router.delete(
+    '/',
+    validateBody(UserValidation.deleteById.bind(UserValidation)),
+    asyncErrorCatcher(UserComponent.deleteById),
+);
 
 module.exports = router;
