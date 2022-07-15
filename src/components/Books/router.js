@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const UserComponent = require('.');
+const BooksComponent = require('.');
 const withCatch = require('../../config/with-catch');
 
 /**
@@ -11,52 +11,72 @@ const router = Router();
 
 /**
  * Route serving list of users.
- * @name /v1/users
+ * @name /v1/books
  * @function
  * @inner
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-router.get('/', withCatch(UserComponent.findAll));
+router.get('/', withCatch(BooksComponent.findAll));
 
 /**
  * Route serving a user
- * @name /v1/users/:id
+ * @name /v1/books/count-per-country
  * @function
  * @inner
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware.
  */
-router.get('/:id', withCatch(UserComponent.findById));
+router.get('/count-per-country', withCatch(BooksComponent.getGroupedByCountry));
+
+/**
+ * Route serving a user
+ * @name /v1/books/count-per-country
+ * @function
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/new-books', withCatch(BooksComponent.getNewBooks));
+
+/**
+ * Route serving a user
+ * @name /v1/books/:id
+ * @function
+ * @inner
+ * @param {string} path - Express path
+ * @param {callback} middleware - Express middleware.
+ */
+router.get('/:id', withCatch(BooksComponent.findById));
 
 /**
  * Route serving a new user
- * @name /v1/users
+ * @name /v1/books
  * @function
  * @inner
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-router.post('/', withCatch(UserComponent.create));
+router.post('/', withCatch(BooksComponent.create));
 
 /**
  * Route serving a new user
- * @name /v1/users
+ * @name /v1/books
  * @function
  * @inner
  * @param {string} path - Express path
  * @param {callback} middleware - Express middleware
  */
-router.put('/', withCatch(UserComponent.updateById));
+router.put('/', withCatch(BooksComponent.updateById));
 
 /**
  * Route serving a new user
- * @name /v1/users
+ * @name /v1/books
  * @function
  * @inner
  * @param {string} path -Express path
  * @param {callback} middleware - Express middleware
  */
-router.delete('/', withCatch(UserComponent.deleteById));
+router.delete('/', withCatch(BooksComponent.deleteById));
 
 module.exports = router;

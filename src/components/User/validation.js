@@ -7,6 +7,22 @@ const Validation = require('../validation');
  */
 class UserValidation extends Validation {
     /**
+     * @param {String} data.skip
+     * @param {String} data.limit
+     * @returns
+     * @memberof BooksValidation
+     */
+
+    findAll(data) {
+        return this.Joi
+            .object({
+                skip: this.Joi.number().min(0).default(0),
+                limit: this.Joi.number().min(1).default(10),
+            })
+            .validate(data);
+    }
+
+    /**
      * @param {String} data.id - objectId
      * @returns
      * @memberof UserValidation
@@ -47,25 +63,11 @@ class UserValidation extends Validation {
     updateById(data) {
         return this.Joi
             .object({
-                id: this.Joi.objectId(),
                 fullName: this.Joi
                     .string()
                     .min(1)
                     .max(30)
                     .required(),
-            })
-            .validate(data);
-    }
-
-    /**
-     * @param {String} data.id - objectId
-     * @returns
-     * @memberof UserValidation
-     */
-    deleteById(data) {
-        return this.Joi
-            .object({
-                id: this.Joi.objectId(),
             })
             .validate(data);
     }
