@@ -1,6 +1,9 @@
 const express = require('express');
 const http = require('http');
 const UserRouter = require('../components/User/router');
+const AuthRouter = require('../components/Auth/router');
+const BooksRouter = require('../components/Books/router');
+const AuthComponent = require('../components/Auth/index');
 
 module.exports = {
     /**
@@ -20,7 +23,9 @@ module.exports = {
          * @param {string} path - Express path
          * @param {callback} middleware - Express middleware.
          */
-        app.use('/v1/users', UserRouter);
+        app.use('/v1/users', AuthComponent.verifyAccessToken, UserRouter);
+        app.use('/v1/auth', AuthRouter);
+        app.use('/v1/books', BooksRouter);
 
         /**
          * @description No results returned mean the object is not found
@@ -28,7 +33,7 @@ module.exports = {
          * @inner
          * @param {callback} middleware - Express middleware.
          */
-        app.use((req, res, next) => {
+        app.use((req, res) => {
             res.status(404).send(http.STATUS_CODES[404]);
         });
 

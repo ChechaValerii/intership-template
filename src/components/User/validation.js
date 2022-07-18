@@ -7,14 +7,15 @@ const Validation = require('../validation');
  */
 class UserValidation extends Validation {
     /**
-     * @param {String} data.id - objectId
+     * @param {String} data.email - objectEmail
      * @returns
      * @memberof UserValidation
      */
-    findById(data) {
+    findByEmail(data) {
         return this.Joi
             .object({
-                id: this.Joi.objectId(),
+                // id: this.Joi.objectId(),
+                email: this.Joi.string().email().required(),
             })
             .validate(data);
     }
@@ -28,7 +29,7 @@ class UserValidation extends Validation {
     create(profile) {
         return this.Joi
             .object({
-                email: this.Joi.string().email(),
+                email: this.Joi.string().email().required(),
                 fullName: this.Joi
                     .string()
                     .min(1)
@@ -39,15 +40,16 @@ class UserValidation extends Validation {
     }
 
     /**
-     * @param {String} data.id - objectId
+     * @param {String} data.email - objectEmail
      * @param {String} data.fullName
      * @returns
      * @memberof UserValidation
      */
-    updateById(data) {
+    updateByEmail(data) {
         return this.Joi
             .object({
-                id: this.Joi.objectId(),
+                // id: this.Joi.objectId(),
+                email: this.Joi.string().email().required(),
                 fullName: this.Joi
                     .string()
                     .min(1)
@@ -58,14 +60,15 @@ class UserValidation extends Validation {
     }
 
     /**
-     * @param {String} data.id - objectId
+     * @param {String} data.email - objectEmail
      * @returns
      * @memberof UserValidation
      */
-    deleteById(data) {
+    deleteByEmail(data) {
         return this.Joi
             .object({
-                id: this.Joi.objectId(),
+                // id: this.Joi.objectId(),
+                email: this.Joi.string().email().required(),
             })
             .validate(data);
     }
